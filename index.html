@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Code X — Learn Programming Smarter</title>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+      :root {
+        --bg: #ffffff;
+        --surface: #f9fafb;
+        --text: #0f172a;
+        --muted: #64748b;
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --ring: rgba(37, 99, 235, 0.35);
+        --border: #e5e7eb;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b1220;
+          --surface: #0f172a;
+          --text: #e5e7eb;
+          --muted: #9aa3b2;
+          --primary: #3b82f6;
+          --primary-dark: #2563eb;
+          --ring: rgba(59,130,246,0.35);
+          --border: #1e293b;
+        }
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Noto Sans", Helvetica, Arial;
+        color: var(--text);
+        background: var(--bg);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        min-height: 100dvh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin-inline: auto;
+        padding-inline: clamp(1rem, 3vw, 2rem);
+      }
+
+      /* Header */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: saturate(140%) blur(8px);
+        background: color-mix(in srgb, var(--surface) 90%, transparent);
+        border-bottom: 1px solid var(--border);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+      }
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: .6rem;
+        font-weight: 700;
+        text-decoration: none;
+        color: inherit;
+        font-size: 1.25rem;
+      }
+      .brand-logo {
+        width: 40px; height: 40px;
+        border-radius: 10px;
+        display: grid; place-items: center;
+        background: linear-gradient(135deg, var(--primary), #22c55e);
+        color: white;
+        font-weight: 800;
+        font-size: 1.1rem;
+        box-shadow: 0 6px 16px rgba(37,99,235,.25);
+      }
+
+      .menu { display: flex; gap: 1rem; }
+      .navlink {
+        text-decoration: none;
+        color: var(--muted);
+        font-weight: 600;
+        padding: .5rem .75rem;
+        border-radius: .5rem;
+        transition: 0.2s;
+      }
+      .navlink:hover { color: var(--primary); background: var(--surface); }
+
+      .cta {
+        border: 0;
+        border-radius: 999px;
+        padding: .625rem 1.25rem;
+        font-weight: 700;
+        cursor: pointer;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        box-shadow: 0 6px 20px var(--ring);
+        transition: transform .2s ease;
+      }
+      .cta:hover { transform: translateY(-2px); }
+
+      .hamburger { display: none; background: transparent; border: 0; padding: .5rem; }
+      .hamburger:hover { background: var(--surface); border-radius: .5rem; }
+      #mobilePanel { display: none; }
+      @media (max-width: 800px) {
+        .menu { display: none; }
+        .hamburger { display: inline-flex; }
+        #mobilePanel.open { display: block; }
+        .mobile-menu { display: grid; gap: .5rem; padding: 1rem; }
+        .mobile-menu a { padding: .75rem; border-radius: .5rem; text-decoration: none; color: var(--text); }
+        .mobile-menu a:hover { background: var(--surface); }
+      }
+
+      /* Hero */
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        padding-block: 4rem;
+        align-items: center;
+      }
+      .hero h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+      .hero p { font-size: 1.125rem; margin-bottom: 1.5rem; color: var(--muted); }
+      @media (max-width: 800px) {
+        .hero { grid-template-columns: 1fr; text-align: center; }
+      }
+
+      /* Courses */
+      .courses { padding-block: 3rem; }
+      .courses h2 { text-align: center; font-size: 2rem; margin-bottom: 2rem; }
+      .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+      .course-card {
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+        background: var(--surface);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        transition: transform .2s ease, box-shadow .2s ease;
+        display: flex; flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+      }
+      .course-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      }
+      .course-card img {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        object-fit: cover;
+      }
+      .course-info { padding: 1rem; flex-grow: 1; display: flex; flex-direction: column; }
+      .course-info h3 { margin: 0 0 .5rem; font-size: 1.125rem; }
+      .course-rating { display: flex; align-items: center; gap: .35rem; font-size: .875rem; color: var(--muted); margin-bottom: .25rem; }
+      .stars { color: #fbbf24; font-size: 1rem; }
+      .instructor { font-size: .875rem; color: var(--muted); margin-bottom: .5rem; }
+      .course-info p { margin: 0; font-weight: 600; color: var(--primary); font-size: 1rem; }
+
+      /* Footer */
+      footer { border-top: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 92%, transparent); }
+      .footer {
+        display: grid;
+        grid-template-columns: 1.5fr repeat(3, 1fr);
+        gap: 2rem;
+        padding-block: 2rem;
+      }
+      .footer h4 { margin-bottom: .5rem; font-size: 1rem; }
+      .footer p { margin: 0; color: var(--muted); }
+      .footer a { color: inherit; text-decoration: none; opacity: .9; }
+      .footer a:hover { text-decoration: underline; }
+      .footer .brand { margin-bottom: .5rem; }
+      .legal { border-top: 1px solid var(--border); }
+      .legal .row {
+        height: 56px; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        font-size: .9rem; color: var(--muted);
+      }
+      .legal .actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+      .badge { padding: .25rem .5rem; border-radius: .5rem; background: var(--surface); }
+      @media (max-width: 900px) {
+        .footer { grid-template-columns: 1fr 1fr; }
+      }
+      @media (max-width: 600px) {
+        .footer { grid-template-columns: 1fr; }
+        .legal .row { height: auto; padding-block: 1rem; flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="container nav">
+        <a class="brand" href="#">
+          <span class="brand-logo">C</span>
+          <span>Code X</span>
+        </a>
+        <nav class="menu">
+          <a class="navlink" href="#">Home</a>
+          <a class="navlink" href="#">Courses</a>
+          <a class="navlink" href="#">Instructors</a>
+          <a class="navlink" href="#">Resources</a>
+        </nav>
+        <div style="display:flex;gap:.5rem;align-items:center;">
+          <button class="cta">Get Started</button>
+          <button class="hamburger" aria-expanded="false" aria-controls="mobilePanel">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+      <div id="mobilePanel" class="container">
+        <div class="mobile-menu">
+          <a href="#">Home</a>
+          <a href="#">Courses</a>
+          <a href="#">Instructors</a>
+          <a href="#">Resources</a>
+          <a href="#" class="cta" style="text-align:center;">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero container">
+      <div>
+        <h1>Master Programming with Code X</h1>
+        <p>Learn coding from scratch or upgrade your skills with expert-led courses designed to make you job-ready.</p>
+        <button class="cta">Browse Courses</button>
+      </div>
+    </section>
+
+    <!-- Featured Courses -->
+    <section class="courses container">
+      <h2>Popular Courses</h2>
+      <div class="course-grid">
+        <a href="#" class="course-card">
+          <img src="https://img-c.udemycdn.com/course/240x135/705264_caa9_13.jpg" alt="Python for Beginners">
+          <div class="course-info">
+            <h3>Python for Beginners</h3>
+            <div class="course-rating"><span class="stars">★★★★★</span> (2,340 reviews)</div>
+            <span class="instructor">Sarah Lee</span>
+            <p>$29.99</p>
+          </div>
+        </a>
+        <a href="#" class="course-card">
+          <img src="https://img-c.udemycdn.com/course/240x135/851712_fc61_6.jpg" alt="Java Masterclass">
+          <div class="course-info">
+            <h3>Java Masterclass</h3>
+            <div class="course-rating"><span class="stars">★★★★☆</span> (1,100 reviews)</div>
+            <span class="instructor">David Kim</span>
+            <p>$39.99</p>
+          </div>
+        </a>
+        <a href="#" class="course-card">
+          <img src="https://img-c.udemycdn.com/course/240x135/750536_3673.jpg" alt="JavaScript Essentials">
+          <div class="course-info">
+            <h3>JavaScript Essentials</h3>
+            <div class="course-rating"><span class="stars">★★★★★</span> (1,800 reviews)</div>
+            <span class="instructor">Maya Patel</span>
+            <p>$34.99</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer">
+        <div>
+          <a class="brand" href="#">
+            <span class="brand-logo">C</span>
+            <span>Code X</span>
+          </a>
+          <p>Code X helps learners worldwide unlock the power of programming with modern, practical education.</p>
+        </div>
+        <div>
+          <h4>Learning</h4>
+          <p><a href="#">Courses</a></p>
+          <p><a href="#">Certificates</a></p>
+          <p><a href="#">Workshops</a></p>
+        </div>
+        <div>
+          <h4>Community</h4>
+          <p><a href="#">Forums</a></p>
+          <p><a href="#">Events</a></p>
+          <p><a href="#">Blog</a></p>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <p><a href="#">Help Center</a></p>
+          <p><a href="#">FAQ</a></p>
+          <p><a href="#">Contact</a></p>
+        </div>
+      </div>
+      <div class="legal">
+        <div class="container row">
+          <span>© <span id="year"></span> Code X. All rights reserved.</span>
+          <div class="actions">
+            <a href="#" class="badge">Twitter</a>
+            <a href="#" class="badge">LinkedIn</a>
+            <a href="#" class="badge">Privacy</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const hamburger = document.querySelector('.hamburger');
+      const panel = document.getElementById('mobilePanel');
+      hamburger?.addEventListener('click', () => {
+        const open = panel.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', open);
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
