@@ -1,254 +1,167 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wave — Modern Landing Demo</title>
-  <meta name="description" content="A clean, modern demo landing page to test inside your Android WebView app." />
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyShop | Professional Product Showcase</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg1:#0f1724; /* dark navy */
-      --accent1:#4f46e5; /* indigo */
-      --accent2:#06b6d4; /* teal */
-      --card:#0b1220;
-      --muted:rgba(255,255,255,0.65);
-      --glass:rgba(255,255,255,0.04);
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Inter', sans-serif; background: #f7f7f7; color: #1a1a1a; }
+
+    /* Header */
+    header {
+      position: sticky; top:0; z-index:100;
+      background:#fff; display:flex; justify-content:space-between; align-items:center;
+      padding:20px 60px; box-shadow:0 4px 15px rgba(0,0,0,0.05);
     }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
-    body{
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(79,70,229,0.12), transparent),
-                  radial-gradient(900px 450px at 90% 90%, rgba(6,182,212,0.08), transparent),
-                  var(--bg1);
-      color:#fff;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
+    header .logo { font-weight:700; font-size:1.7rem; color:#1f3b5b; }
+    header nav a { margin-left:35px; font-weight:500; color:#1f3b5b; transition:0.3s; }
+    header nav a:hover { color:#ff6b45; }
+
+    /* Hero Section */
+    .hero {
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      height:75vh; background: linear-gradient(135deg, #1f3b5b, #ff6b45);
+      color:#fff; text-align:center; padding:0 20px;
     }
-
-    /* container */
-    .wrap{max-width:1100px;margin:0 auto;padding:28px}
-
-    /* navbar */
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
-    .logo{display:flex;align-items:center;gap:10px;font-weight:700}
-    .logo .mark{width:44px;height:44px;background:linear-gradient(135deg,var(--accent1),var(--accent2));border-radius:10px;display:inline-block;box-shadow:0 6px 20px rgba(6,182,212,0.08);}
-    .nav-links{display:flex;gap:18px;align-items:center}
-    .nav-links a{color:var(--muted);text-decoration:none;font-weight:600}
-    .cta{background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:10px 16px;border-radius:10px;color:white;text-decoration:none;font-weight:700}
-
-    /* hero */
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center;padding:40px 0}
-    .hero-left h1{font-size:clamp(28px,4vw,44px);margin:0 0 16px}
-    .lead{color:var(--muted);font-size:16px;margin-bottom:20px}
-    .hero-actions{display:flex;gap:12px;align-items:center}
-    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:10px 16px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600}
-
-    /* cards column */
-    .feature-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px)}
-    .feature-card h3{margin:0 0 8px}
-    .stat{display:flex;gap:10px;align-items:center}
-    .pill{padding:6px 10px;background:var(--glass);border-radius:999px;font-weight:700;color:var(--muted);}
-
-    /* features */
-    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
-    .feature{background:rgba(255,255,255,0.02);padding:18px;border-radius:12px}
-    .feature h4{margin:0 0 8px}
-
-    /* pricing */
-    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:36px 0}
-    .price-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:20px;border-radius:14px}
-    .price{font-size:22px;font-weight:800;margin:8px 0}
-    .price small{font-weight:600;color:var(--muted)}
-
-    /* footer */
-    footer{margin-top:40px;padding:24px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
-
-    /* responsive */
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr;}
-      .features{grid-template-columns:repeat(2,1fr)}
-      .pricing{grid-template-columns:1fr}
-      .wrap{padding:18px}
+    .hero h1 { font-size:3rem; font-weight:700; margin-bottom:15px; line-height:1.2; }
+    .hero p { font-size:1.2rem; margin-bottom:30px; max-width:600px; }
+    .hero button {
+      background:#fff; color:#1f3b5b; border:none; padding:15px 35px; border-radius:50px;
+      font-weight:600; cursor:pointer; transition:0.3s;
     }
-    @media (max-width:520px){
-      .features{grid-template-columns:1fr}
-      .nav-links{display:none}
+    .hero button:hover { background:#ff6b45; color:#fff; transform:scale(1.05); }
+
+    /* Products */
+    .products { max-width:1200px; margin:60px auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:30px; padding:0 20px; }
+    .product-card {
+      background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 8px 25px rgba(0,0,0,0.08);
+      transition:transform 0.3s, box-shadow 0.3s;
     }
+    .product-card:hover { transform:translateY(-10px); box-shadow:0 15px 40px rgba(0,0,0,0.12); }
+    .product-card img { width:100%; height:200px; object-fit:cover; transition: transform 0.3s; }
+    .product-card:hover img { transform: scale(1.05); }
+    .product-card .info { padding:25px; text-align:center; }
+    .product-card h3 { font-size:1.3rem; margin-bottom:10px; font-weight:600; }
+    .product-card p { font-size:0.95rem; color:#555; margin-bottom:15px; }
+    .product-card .price { font-weight:700; font-size:1.1rem; color:#ff6b45; margin-bottom:15px; }
+    .product-card button {
+      background:#1f3b5b; color:#fff; border:none; padding:12px 25px; border-radius:50px;
+      font-weight:600; cursor:pointer; transition:0.3s;
+    }
+    .product-card button:hover { background:#ff6b45; transform:scale(1.05); }
 
-    /* subtle animations */
-    .fade-up{opacity:0;transform:translateY(12px);animation:fadeUp 700ms cubic-bezier(.2,.9,.3,1) forwards}
-    @keyframes fadeUp{to{opacity:1;transform:none}}
+    /* Features */
+    .features { max-width:1200px; margin:80px auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:30px; padding:0 20px; }
+    .feature-card { background:#fff; border-radius:20px; padding:35px 25px; text-align:center; box-shadow:0 8px 25px rgba(0,0,0,0.08); transition: transform 0.3s; }
+    .feature-card:hover { transform:translateY(-5px); }
+    .feature-card i { font-size:2rem; color:#ff6b45; margin-bottom:15px; }
+    .feature-card h4 { font-weight:600; margin-bottom:12px; }
+    .feature-card p { font-size:0.95rem; color:#555; line-height:1.4; }
 
+    /* Footer */
+    footer { background:#1f3b5b; color:#fff; padding:50px 20px; text-align:center; }
+    footer a { color:#ff6b45; transition:0.3s; }
+    footer a:hover { color:#fff; }
+
+    @media(max-width:768px){ .hero h1 { font-size:2rem; } }
   </style>
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="wrap">
-    <nav class="nav fade-up" style="animation-delay:120ms">
-      <div class="logo">
-        <span class="mark" aria-hidden></span>
-        <div>
-          <div style="font-size:14px">Wave</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">Demo Landing</div>
-        </div>
-      </div>
 
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#contact">Contact</a>
-        <a class="cta" href="#" onclick="openDemo()">Get Started</a>
-      </div>
+  <!-- Header -->
+  <header>
+    <div class="logo">MyShop</div>
+    <nav>
+      <a href="#">Home</a>
     </nav>
+  </header>
 
-    <header class="hero">
-      <div class="hero-left fade-up" style="animation-delay:200ms">
-        <h1>Beautiful, fast, and reliable — your WebView-ready landing</h1>
-        <p class="lead">A responsive demo landing page you can use to test your Android WebView app. Lightweight, modern UI with clear CTAs and sections to validate navigation, forms and layout inside the app.</p>
-        <div class="hero-actions">
-          <a class="cta" href="#pricing">Try Pricing</a>
-          <a class="secondary" href="#features">See Features</a>
-        </div>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Premium Products, Professional Design</h1>
+    <p>Discover high-quality products designed for your lifestyle. Sleek, modern, and reliable.</p>
+    <button>Shop Now</button>
+  </section>
 
-        <div class="features" style="margin-top:28px">
-          <div class="feature fade-up" style="animation-delay:360ms">
-            <h4>Fast to load</h4>
-            <p style="color:var(--muted)">Optimized HTML/CSS to keep the WebView snappy.</p>
-          </div>
-          <div class="feature fade-up" style="animation-delay:420ms">
-            <h4>Responsive</h4>
-            <p style="color:var(--muted)">Looks great on phones and tablets — perfect for testing.</p>
-          </div>
-          <div class="feature fade-up" style="animation-delay:480ms">
-            <h4>Clean design</h4>
-            <p style="color:var(--muted)">Modern typography and subtle glassmorphism cards.</p>
-          </div>
-        </div>
+  <!-- Products -->
+  <section class="products" id="products">
+    <div class="product-card">
+      <img src="https://via.placeholder.com/400x200" alt="Product 1">
+      <div class="info">
+        <h3>Smart Watch</h3>
+        <p>Modern design with all-day tracking and notifications.</p>
+        <div class="price">$149.99</div>
+        <button>Buy Now</button>
       </div>
-
-      <aside class="feature-card fade-up" style="animation-delay:260ms">
-        <h3>Quick preview</h3>
-        <p class="stat"><span class="pill">Demo</span><span style="color:var(--muted);margin-left:auto">Ready to test</span></p>
-
-        <div style="margin-top:16px">
-          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='380' height='220'><rect rx='12' width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial' font-size='20' fill='%23ffffff' opacity='0.85'>App Preview Area</text></svg>" alt="preview" style="width:100%;border-radius:12px;margin-top:12px;display:block"/>
-        </div>
-
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <a class="cta" href="#contact">Contact Us</a>
-          <a class="secondary" href="javascript:;">Documentation</a>
-        </div>
-      </aside>
-    </header>
-
-    <section id="features" style="margin-top:34px">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
-        <h2 style="margin:0">Features</h2>
-        <div style="color:var(--muted);font-weight:600">Everything you need to validate your WebView experience</div>
+    </div>
+    <div class="product-card">
+      <img src="https://via.placeholder.com/400x200" alt="Product 2">
+      <div class="info">
+        <h3>Wireless Earbuds</h3>
+        <p>High-quality sound with comfortable fit and long battery life.</p>
+        <div class="price">$79.99</div>
+        <button>Buy Now</button>
       </div>
-
-      <div class="features" style="margin-top:18px">
-        <div class="feature fade-up" style="animation-delay:520ms">
-          <h4>Navigation</h4>
-          <p style="color:var(--muted)">Internal anchors and multiple pages for back-button testing.</p>
-        </div>
-        <div class="feature fade-up" style="animation-delay:560ms">
-          <h4>Forms</h4>
-          <p style="color:var(--muted)">A contact form below to test POST and input handling.</p>
-        </div>
-        <div class="feature fade-up" style="animation-delay:600ms">
-          <h4>Lightweight</h4>
-          <p style="color:var(--muted)">No heavy libraries — ideal for embedded browsers.</p>
-        </div>
+    </div>
+    <div class="product-card">
+      <img src="https://via.placeholder.com/400x200" alt="Product 3">
+      <div class="info">
+        <h3>Portable Speaker</h3>
+        <p>Crystal-clear sound with deep bass in a compact design.</p>
+        <div class="price">$99.99</div>
+        <button>Buy Now</button>
       </div>
-    </section>
-
-    <section id="pricing" style="margin-top:38px">
-      <h2>Pricing</h2>
-      <p style="color:var(--muted);margin-top:6px">Pick a plan to simulate different content lengths and layouts.</p>
-
-      <div class="pricing">
-        <div class="price-card fade-up" style="animation-delay:640ms">
-          <h3>Starter</h3>
-          <div class="price">Free <small>/ forever</small></div>
-          <p style="color:var(--muted)">Basic content and test pages.</p>
-          <div style="margin-top:12px"><a class="cta" href="#contact">Get Free</a></div>
-        </div>
-
-        <div class="price-card fade-up" style="animation-delay:700ms">
-          <h3>Pro</h3>
-          <div class="price">$9 <small>/ month</small></div>
-          <p style="color:var(--muted)">Longer pages, more components and a contact form.</p>
-          <div style="margin-top:12px"><a class="cta" href="#contact">Start Pro</a></div>
-        </div>
-
-        <div class="price-card fade-up" style="animation-delay:760ms">
-          <h3>Enterprise</h3>
-          <div class="price">$49 <small>/ month</small></div>
-          <p style="color:var(--muted)">Full demo content and long-form pages to stress-test WebView.</p>
-          <div style="margin-top:12px"><a class="cta" href="#contact">Contact Sales</a></div>
-        </div>
+    </div>
+    <div class="product-card">
+      <img src="https://via.placeholder.com/400x200" alt="Product 4">
+      <div class="info">
+        <h3>Fitness Tracker</h3>
+        <p>Track your activity, sleep, and heart rate effortlessly.</p>
+        <div class="price">$59.99</div>
+        <button>Buy Now</button>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="contact" style="margin-top:36px">
-      <h2>Contact</h2>
-      <p style="color:var(--muted);margin-top:6px">Use this form to test inputs and submissions inside your WebView.</p>
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="feature-card">
+      <i class="fas fa-shipping-fast"></i>
+      <h4>Fast Shipping</h4>
+      <p>Receive your products quickly and safely with our reliable delivery service.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-award"></i>
+      <h4>Premium Quality</h4>
+      <p>All products are carefully crafted to meet high-quality standards.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-undo"></i>
+      <h4>Easy Returns</h4>
+      <p>Hassle-free returns if you’re not fully satisfied with your purchase.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fas fa-lock"></i>
+      <h4>Secure Payment</h4>
+      <p>Your transactions are encrypted and fully secure for peace of mind.</p>
+    </div>
+  </section>
 
-      <div style="margin-top:12px;max-width:720px">
-        <form id="demoForm" onsubmit="handleSubmit(event)" style="display:flex;gap:12px;flex-wrap:wrap">
-          <input name="name" placeholder="Your name" required style="flex:1;min-width:180px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white" />
-          <input type="email" name="email" placeholder="Email address" required style="flex:1;min-width:220px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white" />
-          <textarea name="message" placeholder="Message" required style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white;min-height:110px"></textarea>
-          <div style="width:100%;display:flex;justify-content:flex-end">
-            <button type="submit" class="cta">Send Message</button>
-          </div>
-        </form>
-        <div id="formResult" style="margin-top:12px;color:var(--muted)"></div>
-      </div>
-    </section>
+  <!-- Footer -->
+  <footer id="contact">
+    <p>Contact us: <a href="mailto:info@myshop.com">info@myshop.com</a></p>
+    <p>Follow us on 
+      <a href="#">Facebook</a> | 
+      <a href="#">Instagram</a> | 
+      <a href="#">Twitter</a>
+    </p>
+    <p>&copy; 2025 MyShop. All rights reserved.</p>
+  </footer>
 
-    <footer>
-      <div>© 2025 Wave — Demo</div>
-      <div style="display:flex;gap:12px;align-items:center">
-        <div style="color:var(--muted)">Made for testing</div>
-      </div>
-    </footer>
-  </div>
-
-  <script>
-    // small helpers for demo
-    function openDemo(){
-      location.href = '#pricing';
-    }
-
-    function handleSubmit(e){
-      e.preventDefault();
-      const f = e.target;
-      const data = {
-        name: f.name.value,
-        email: f.email.value,
-        message: f.message.value
-      };
-      // simulate a server response
-      document.getElementById('formResult').textContent = 'Sending...';
-      setTimeout(()=>{
-        document.getElementById('formResult').textContent = `Thanks ${data.name}! We received your message.`;
-        f.reset();
-      },900);
-    }
-
-    // fade-in trigger
-    document.addEventListener('DOMContentLoaded', ()=>{
-      document.querySelectorAll('.fade-up').forEach((el,i)=>{
-        el.style.animationDelay = (120 + i*80) + 'ms';
-      });
-    });
-  </script>
 </body>
 </html>
