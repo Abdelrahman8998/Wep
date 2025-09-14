@@ -1,400 +1,254 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>آلة حاسبة احترافية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wave — Modern Landing Demo</title>
+  <meta name="description" content="A clean, modern demo landing page to test inside your Android WebView app." />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#f4f7fb;
-      --panel:#ffffff;
-      --accent1: linear-gradient(135deg,#6a9cff 0%, #8bd3ff 100%);
-      --text:#0b2545;
-      --muted:#6b7a8a;
-      --btn-bg:#eef4ff;
-      --shadow: 0 8px 20px rgba(11,37,69,0.08);
-      --radius:14px;
-      font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --bg1:#0f1724; /* dark navy */
+      --accent1:#4f46e5; /* indigo */
+      --accent2:#06b6d4; /* teal */
+      --card:#0b1220;
+      --muted:rgba(255,255,255,0.65);
+      --glass:rgba(255,255,255,0.04);
     }
-    [data-theme="dark"]{
-      --bg:#0b1220;
-      --panel:#0f1724;
-      --text:#e6eef8;
-      --muted:#9aa8bf;
-      --btn-bg:#0b1626;
-      --shadow: 0 8px 20px rgba(0,0,0,0.6);
-    }
-
-    html,body{
-      height:100%;
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(79,70,229,0.12), transparent),
+                  radial-gradient(900px 450px at 90% 90%, rgba(6,182,212,0.08), transparent),
+                  var(--bg1);
+      color:#fff;
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
     }
 
-    .wrap{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
-      gap:24px;
-    }
+    /* container */
+    .wrap{max-width:1100px;margin:0 auto;padding:28px}
 
-    .calculator{
-      width:380px;
-      max-width:96vw;
-      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.3));
-      border-radius:22px;
-      box-shadow:var(--shadow);
-      padding:18px;
-      box-sizing:border-box;
-      backdrop-filter: blur(6px);
-    }
+    /* navbar */
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700}
+    .logo .mark{width:44px;height:44px;background:linear-gradient(135deg,var(--accent1),var(--accent2));border-radius:10px;display:inline-block;box-shadow:0 6px 20px rgba(6,182,212,0.08);}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:600}
+    .cta{background:linear-gradient(90deg,var(--accent1),var(--accent2));padding:10px 16px;border-radius:10px;color:white;text-decoration:none;font-weight:700}
 
-    .top-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .logo{
-      width:46px;
-      height:46px;
-      border-radius:12px;
-      background:var(--accent1);
-      display:grid;
-      place-items:center;
-      color:#fff;
-      font-weight:700;
-      box-shadow: 0 6px 18px rgba(98,147,255,0.24);
-    }
-    .title{
-      font-weight:700;
-      font-size:16px;
-      line-height:1;
-    }
-    .subtitle{
-      font-size:12px;
-      color:var(--muted);
-    }
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center;padding:40px 0}
+    .hero-left h1{font-size:clamp(28px,4vw,44px);margin:0 0 16px}
+    .lead{color:var(--muted);font-size:16px;margin-bottom:20px}
+    .hero-actions{display:flex;gap:12px;align-items:center}
+    .secondary{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:10px 16px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600}
 
-    .controls{
-      display:flex;
-      gap:8px;
-      align-items:center;
-    }
-    .icon-btn{
-      border:0;
-      background:transparent;
-      padding:8px;
-      border-radius:10px;
-      cursor:pointer;
-      color:var(--muted);
-    }
-    .display{
-      margin-top:14px;
-      background:var(--panel);
-      border-radius:14px;
-      padding:14px;
-      box-shadow: inset 0 -8px 24px rgba(11,37,69,0.02);
-    }
-    .expr{
-      font-size:14px;
-      color:var(--muted);
-      min-height:20px;
-      text-align:left;
-      direction:ltr;
-      word-break:break-all;
-    }
-    .result{
-      font-size:34px;
-      font-weight:700;
-      text-align:left;
-      direction:ltr;
-      margin-top:6px;
-      word-break:break-all;
-    }
+    /* cards column */
+    .feature-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);backdrop-filter: blur(6px)}
+    .feature-card h3{margin:0 0 8px}
+    .stat{display:flex;gap:10px;align-items:center}
+    .pill{padding:6px 10px;background:var(--glass);border-radius:999px;font-weight:700;color:var(--muted);}
 
-    .kbd{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:10px;
-    }
-    button.key{
-      background:var(--btn-bg);
-      border:0;
-      padding:16px;
-      border-radius:12px;
-      font-size:18px;
-      font-weight:600;
-      cursor:pointer;
-      box-shadow: 0 6px 14px rgba(12,30,60,0.05);
-      transition: transform .08s ease, box-shadow .08s ease;
-      user-select:none;
-    }
-    button.key:active{ transform: translateY(2px); }
-    button.key:focus{ outline: 3px solid rgba(107,156,255,0.14); }
+    /* features */
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+    .feature{background:rgba(255,255,255,0.02);padding:18px;border-radius:12px}
+    .feature h4{margin:0 0 8px}
 
-    .key.op{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
-      color:var(--text);
-      font-weight:700;
-    }
-    .key.equal{
-      grid-column: span 2;
-      background:var(--accent1);
-      color:#fff;
-      font-size:20px;
-      box-shadow: 0 10px 30px rgba(107,156,255,0.28);
-    }
-    .key.clear{
-      background:linear-gradient(90deg,#ffd1d1,#ffbebe);
-      color:#7a0303;
-      font-weight:700;
-    }
+    /* pricing */
+    .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:36px 0}
+    .price-card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:20px;border-radius:14px}
+    .price{font-size:22px;font-weight:800;margin:8px 0}
+    .price small{font-weight:600;color:var(--muted)}
 
-    .history{
-      margin-top:12px;
-      display:flex;
-      gap:12px;
-      align-items:flex-start;
-    }
-    .history-list{
-      flex:1;
-      max-height:110px;
-      overflow:auto;
-      background:transparent;
-      padding:8px;
-      border-radius:10px;
-    }
-    .history-item{
-      font-size:13px;
-      color:var(--muted);
-      padding:6px 8px;
-      border-radius:8px;
-      display:flex;
-      justify-content:space-between;
-      gap:8px;
-    }
-    .history-item:hover{ background: rgba(0,0,0,0.02); cursor:pointer; }
-
-    .small{
-      font-size:12px;
-      color:var(--muted);
-    }
+    /* footer */
+    footer{margin-top:40px;padding:24px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
 
     /* responsive */
-    @media (max-width:420px){
-      .calculator{ padding:12px; border-radius:16px; }
-      .result{ font-size:28px; }
-      .logo{ width:40px; height:40px; border-radius:10px;}
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr;}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .pricing{grid-template-columns:1fr}
+      .wrap{padding:18px}
     }
+    @media (max-width:520px){
+      .features{grid-template-columns:1fr}
+      .nav-links{display:none}
+    }
+
+    /* subtle animations */
+    .fade-up{opacity:0;transform:translateY(12px);animation:fadeUp 700ms cubic-bezier(.2,.9,.3,1) forwards}
+    @keyframes fadeUp{to{opacity:1;transform:none}}
+
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="calculator" role="application" aria-label="آلة حاسبة احترافية">
-      <div class="top-row">
-        <div class="brand">
-          <div>
-            <div class="title">آلة حاسبة</div>
+    <nav class="nav fade-up" style="animation-delay:120ms">
+      <div class="logo">
+        <span class="mark" aria-hidden></span>
+        <div>
+          <div style="font-size:14px">Wave</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Demo Landing</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="#" onclick="openDemo()">Get Started</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-left fade-up" style="animation-delay:200ms">
+        <h1>Beautiful, fast, and reliable — your WebView-ready landing</h1>
+        <p class="lead">A responsive demo landing page you can use to test your Android WebView app. Lightweight, modern UI with clear CTAs and sections to validate navigation, forms and layout inside the app.</p>
+        <div class="hero-actions">
+          <a class="cta" href="#pricing">Try Pricing</a>
+          <a class="secondary" href="#features">See Features</a>
+        </div>
+
+        <div class="features" style="margin-top:28px">
+          <div class="feature fade-up" style="animation-delay:360ms">
+            <h4>Fast to load</h4>
+            <p style="color:var(--muted)">Optimized HTML/CSS to keep the WebView snappy.</p>
+          </div>
+          <div class="feature fade-up" style="animation-delay:420ms">
+            <h4>Responsive</h4>
+            <p style="color:var(--muted)">Looks great on phones and tablets — perfect for testing.</p>
+          </div>
+          <div class="feature fade-up" style="animation-delay:480ms">
+            <h4>Clean design</h4>
+            <p style="color:var(--muted)">Modern typography and subtle glassmorphism cards.</p>
           </div>
         </div>
+      </div>
 
-        <div class="controls">
-          <button class="icon-btn" id="themeToggle" title="تبديل الوضع" aria-label="تبديل الوضع">🌗</button>
-          <button class="icon-btn" id="clearAll" title="مسح الكل" aria-label="مسح الكل">🧹</button>
+      <aside class="feature-card fade-up" style="animation-delay:260ms">
+        <h3>Quick preview</h3>
+        <p class="stat"><span class="pill">Demo</span><span style="color:var(--muted);margin-left:auto">Ready to test</span></p>
+
+        <div style="margin-top:16px">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='380' height='220'><rect rx='12' width='100%' height='100%' fill='%230b1220'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-family='Inter,Arial' font-size='20' fill='%23ffffff' opacity='0.85'>App Preview Area</text></svg>" alt="preview" style="width:100%;border-radius:12px;margin-top:12px;display:block"/>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <a class="cta" href="#contact">Contact Us</a>
+          <a class="secondary" href="javascript:;">Documentation</a>
+        </div>
+      </aside>
+    </header>
+
+    <section id="features" style="margin-top:34px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <h2 style="margin:0">Features</h2>
+        <div style="color:var(--muted);font-weight:600">Everything you need to validate your WebView experience</div>
+      </div>
+
+      <div class="features" style="margin-top:18px">
+        <div class="feature fade-up" style="animation-delay:520ms">
+          <h4>Navigation</h4>
+          <p style="color:var(--muted)">Internal anchors and multiple pages for back-button testing.</p>
+        </div>
+        <div class="feature fade-up" style="animation-delay:560ms">
+          <h4>Forms</h4>
+          <p style="color:var(--muted)">A contact form below to test POST and input handling.</p>
+        </div>
+        <div class="feature fade-up" style="animation-delay:600ms">
+          <h4>Lightweight</h4>
+          <p style="color:var(--muted)">No heavy libraries — ideal for embedded browsers.</p>
         </div>
       </div>
+    </section>
 
-      <div class="display" id="display">
-        <div class="expr" id="expression" aria-live="polite"></div>
-        <div class="result" id="result" aria-live="polite">0</div>
-      </div>
+    <section id="pricing" style="margin-top:38px">
+      <h2>Pricing</h2>
+      <p style="color:var(--muted);margin-top:6px">Pick a plan to simulate different content lengths and layouts.</p>
 
-      <div class="kbd" role="grid" aria-label="لوحة مفاتيح الحاسبة">
-        <button class="key clear" data-action="clear">C</button>
-        <button class="key" data-value="(">(</button>
-        <button class="key" data-value=")">)</button>
-        <button class="key op" data-value="/">÷</button>
-
-        <button class="key" data-value="7">7</button>
-        <button class="key" data-value="8">8</button>
-        <button class="key" data-value="9">9</button>
-        <button class="key op" data-value="*">×</button>
-
-        <button class="key" data-value="4">4</button>
-        <button class="key" data-value="5">5</button>
-        <button class="key" data-value="6">6</button>
-        <button class="key op" data-value="-">−</button>
-
-        <button class="key" data-value="1">1</button>
-        <button class="key" data-value="2">2</button>
-        <button class="key" data-value="3">3</button>
-        <button class="key op" data-value="+">+</button>
-
-        <button class="key" data-value="0">0</button>
-        <button class="key" data-value=".">.</button>
-        <button class="key equal" data-action="equals">=</button>
-      </div>
-
-      <div class="history" aria-hidden="false">
-        <div style="min-width:96px;">
-          <div class="small">السجل</div>
+      <div class="pricing">
+        <div class="price-card fade-up" style="animation-delay:640ms">
+          <h3>Starter</h3>
+          <div class="price">Free <small>/ forever</small></div>
+          <p style="color:var(--muted)">Basic content and test pages.</p>
+          <div style="margin-top:12px"><a class="cta" href="#contact">Get Free</a></div>
         </div>
-        <div class="history-list" id="historyList" role="list" aria-label="سجل العمليات"></div>
-      </div>
 
-    </div>
+        <div class="price-card fade-up" style="animation-delay:700ms">
+          <h3>Pro</h3>
+          <div class="price">$9 <small>/ month</small></div>
+          <p style="color:var(--muted)">Longer pages, more components and a contact form.</p>
+          <div style="margin-top:12px"><a class="cta" href="#contact">Start Pro</a></div>
+        </div>
+
+        <div class="price-card fade-up" style="animation-delay:760ms">
+          <h3>Enterprise</h3>
+          <div class="price">$49 <small>/ month</small></div>
+          <p style="color:var(--muted)">Full demo content and long-form pages to stress-test WebView.</p>
+          <div style="margin-top:12px"><a class="cta" href="#contact">Contact Sales</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:36px">
+      <h2>Contact</h2>
+      <p style="color:var(--muted);margin-top:6px">Use this form to test inputs and submissions inside your WebView.</p>
+
+      <div style="margin-top:12px;max-width:720px">
+        <form id="demoForm" onsubmit="handleSubmit(event)" style="display:flex;gap:12px;flex-wrap:wrap">
+          <input name="name" placeholder="Your name" required style="flex:1;min-width:180px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white" />
+          <input type="email" name="email" placeholder="Email address" required style="flex:1;min-width:220px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white" />
+          <textarea name="message" placeholder="Message" required style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:white;min-height:110px"></textarea>
+          <div style="width:100%;display:flex;justify-content:flex-end">
+            <button type="submit" class="cta">Send Message</button>
+          </div>
+        </form>
+        <div id="formResult" style="margin-top:12px;color:var(--muted)"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2025 Wave — Demo</div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="color:var(--muted)">Made for testing</div>
+      </div>
+    </footer>
   </div>
 
   <script>
-    (function(){
-      const exprEl = document.getElementById('expression');
-      const resEl = document.getElementById('result');
-      const historyList = document.getElementById('historyList');
-      const themeToggle = document.getElementById('themeToggle');
-      const clearAllBtn = document.getElementById('clearAll');
+    // small helpers for demo
+    function openDemo(){
+      location.href = '#pricing';
+    }
 
-      let expression = '';
-      let result = '0';
-      let history = [];
+    function handleSubmit(e){
+      e.preventDefault();
+      const f = e.target;
+      const data = {
+        name: f.name.value,
+        email: f.email.value,
+        message: f.message.value
+      };
+      // simulate a server response
+      document.getElementById('formResult').textContent = 'Sending...';
+      setTimeout(()=>{
+        document.getElementById('formResult').textContent = `Thanks ${data.name}! We received your message.`;
+        f.reset();
+      },900);
+    }
 
-      // Utils: safe eval using Function but sanitize characters (allow digits, operators, parentheses, dot, spaces)
-      function safeEval(exp){
-        // replace × ÷ − with JS operators
-        const cleaned = exp.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-')
-          .replace(/[^\d\.\+\-\*\/\(\)\s]/g,'');
-        // extra guard: prevent leading zeros weirdness, but keep as-is
-        try{
-          // eslint-disable-next-line no-new-func
-          const fn = new Function('return (' + cleaned + ')');
-          const val = fn();
-          if (Number.isFinite(val)) return val;
-          return 'خطأ';
-        }catch(e){
-          return 'خطأ';
-        }
-      }
-
-      function render(){
-        exprEl.textContent = expression || '';
-        resEl.textContent = result;
-        renderHistory();
-      }
-
-      function pushHistory(expr, res){
-        const item = {expr, res, t: Date.now()};
-        history.unshift(item);
-        if(history.length>6) history.length = 6;
-        localStorage.setItem('calc_history', JSON.stringify(history));
-      }
-
-      function renderHistory(){
-        historyList.innerHTML = '';
-        history.forEach((h, idx) => {
-          const div = document.createElement('div');
-          div.className = 'history-item';
-          div.setAttribute('role','listitem');
-          div.innerHTML = '<span style="opacity:.9;">' + h.expr + '</span><strong style="direction:ltr">'+h.res+'</strong>';
-          div.addEventListener('click', ()=> {
-            expression = h.res.toString();
-            result = h.res.toString();
-            render();
-          });
-          historyList.appendChild(div);
-        });
-      }
-
-      // Load saved
-      try{
-        const saved = localStorage.getItem('calc_history');
-        if(saved) history = JSON.parse(saved);
-      }catch(e){ history = []; }
-
-      // Key input handler
-      function handleInput(val){
-        if(val === 'C' || val === 'clear'){
-          expression = '';
-          result = '0';
-          render();
-          return;
-        }
-        if(val === 'equals' || val === '='){
-          const r = safeEval(expression || '0');
-          if(r !== 'خطأ'){
-            pushHistory(expression || '0', r);
-            result = String(r);
-            expression = String(r);
-          } else {
-            result = 'خطأ';
-          }
-          render();
-          return;
-        }
-
-        // normal value (digit, ., operator, parentheses)
-        expression += val;
-        const r = safeEval(expression);
-        result = r === 'خطأ' ? '...' : String(r);
-        render();
-      }
-
-      // Attach button listeners
-      document.querySelectorAll('button.key').forEach(btn => {
-        const v = btn.dataset.value;
-        const a = btn.dataset.action;
-        btn.addEventListener('click', ()=> {
-          if(a) handleInput(a);
-          else handleInput(v);
-          btn.blur();
-        });
+    // fade-in trigger
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.querySelectorAll('.fade-up').forEach((el,i)=>{
+        el.style.animationDelay = (120 + i*80) + 'ms';
       });
-
-      // clear all icon
-      clearAllBtn.addEventListener('click', ()=> {
-        expression = '';
-        result = '0';
-        render();
-      });
-
-      // theme toggle
-      const root = document.documentElement;
-      themeToggle.addEventListener('click', ()=> {
-        const current = document.documentElement.getAttribute('data-theme');
-        if(current === 'dark'){
-          document.documentElement.removeAttribute('data-theme');
-          themeToggle.textContent = '🌗';
-        } else {
-          document.documentElement.setAttribute('data-theme','dark');
-          themeToggle.textContent = '🌞';
-        }
-      });
-
-      // keyboard support
-      window.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape'){ expression=''; result='0'; render(); return; }
-        if(e.key === 'Enter' || e.key === '='){ e.preventDefault(); handleInput('equals'); return; }
-        if(e.key === 'Backspace'){ expression = expression.slice(0,-1); const r = safeEval(expression||'0'); result = r==='خطأ' ? '...' : String(r); render(); return; }
-        // allowed keys: digits, operators, parentheses, dot
-        const allowed = '0123456789+-*/().';
-        if(allowed.includes(e.key)){
-          handleInput(e.key);
-        }
-      });
-
-      // initial render
-      render();
-    })();
+    });
   </script>
 </body>
 </html>
